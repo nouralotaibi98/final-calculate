@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>حاسبة استبدال الأجهزة</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-wrap">
+      <h1 class="brand">بطاقة كفاءة الطاقة</h1>
+      <nav>
+        <ul class="nav">
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="building.html">حاسبة المباني</a></li>
+          <li><a class="active" href="devices.html">حاسبة الأجهزة</a></li>
+          <li><a href="info.html">المعلومات</a></li>
+          <li><a href="faq.html">الأسئلة الشائعة</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>حاسبة استبدال الأجهزة</h2>
+      <p class="lead">قارن بين جهاز <strong>قديم</strong> وجهاز <strong>جديد</strong> لمعرفة التوفير السنوي والمتراكم.</p>
+
+      <form class="grid form-grid" onsubmit="event.preventDefault(); calcDevices();">
+        <div class="field">
+          <label for="oldW">قدرة الجهاز القديم (واط)</label>
+          <input id="oldW" type="number" min="0" placeholder="مثال: 1800" required />
+        </div>
+
+        <div class="field">
+          <label for="newW">قدرة الجهاز الجديد (واط)</label>
+          <input id="newW" type="number" min="0" placeholder="مثال: 1200" required />
+        </div>
+
+        <div class="field">
+          <label for="hrsDay">ساعات التشغيل يوميًا</label>
+          <input id="hrsDay" type="number" min="0" step="0.1" placeholder="مثال: 6" required />
+        </div>
+
+        <div class="field">
+          <label for="daysYear">أيام التشغيل سنويًا</label>
+          <input id="daysYear" type="number" min="1" max="366" value="365" required />
+        </div>
+
+        <div class="field">
+          <label for="priceKwh">سعر الكهرباء (د.ك لكل kWh)</label>
+          <input id="priceKwh" type="number" min="0" step="0.001" value="0.070" required />
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">احسب التوفير</button>
+          <button type="reset" class="btn btn-ghost" onclick="clearDevices()">مسح</button>
+        </div>
+      </form>
+
+      <div id="rep-summary" class="summary hide">
+        <div class="kpi">
+          <div>استهلاك القديم</div>
+          <b id="oldKwh">0 kWh/سنة</b>
+        </div>
+        <div class="kpi">
+          <div>استهلاك الجديد</div>
+          <b id="newKwh">0 kWh/سنة</b>
+        </div>
+        <div class="kpi">
+          <div>التوفير السنوي</div>
+          <b id="saveKwh">0 kWh</b>
+          <div class="muted" id="saveKd">0 د.ك</div>
+        </div>
+        <div class="kpi">
+          <div>خلال 5 سنوات</div>
+          <b id="save5">0 د.ك</b>
+        </div>
+        <div class="kpi">
+          <div>خلال 10 سنوات</div>
+          <b id="save10">0 د.ك</b>
+        </div>
+      </div>
+
+      <div class="note">
+        <small>ملاحظة: الحسبة تقديرية وتعتمد على ساعات التشغيل الفعلية وسعر الكهرباء.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="yr"></span> بطاقة كفاءة الطاقة</div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // سنة الفوتر
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

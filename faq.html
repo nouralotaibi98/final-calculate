@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>الأسئلة الشائعة</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-wrap">
+      <h1 class="brand">بطاقة كفاءة الطاقة</h1>
+      <nav>
+        <ul class="nav">
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="building.html">حاسبة المباني</a></li>
+          <li><a href="devices.html">حاسبة الأجهزة</a></li>
+          <li><a href="info.html">المعلومات</a></li>
+          <li><a class="active" href="faq.html">الأسئلة الشائعة</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>الأسئلة الشائعة</h2>
+      <p class="lead">إجابات سريعة لأكثر الأسئلة تكراراً حول بطاقة كفاءة الطاقة والحاسبات.</p>
+
+      <div class="faq-list">
+        <details>
+          <summary>شنو يعني تصنيف كفاءة الطاقة من <strong>أ</strong> إلى <strong>ز</strong>؟</summary>
+          <p>هو مقياس يوضح مستوى كفاءة استهلاك الطاقة. <strong>أ</strong> تعني أعلى كفاءة وأقل استهلاك، بينما <strong>ز</strong> تعني أقل كفاءة وأعلى استهلاك.</p>
+        </details>
+
+        <details>
+          <summary>شلون أحسب كفاءة المبنى في صفحة الحاسبة؟</summary>
+          <p>ادخل <strong>مساحة المبنى (م²)</strong> و<strong>الاستهلاك السنوي (kWh)</strong>، والنظام يحسب <strong>كثافة الاستهلاك السنوي (kWh/m².year)</strong> ويطلع لك التصنيف بالعربي مباشرة.</p>
+        </details>
+
+        <details>
+          <summary>هل القيم ثابتة ولا تختلف حسب اللوائح؟</summary>
+          <p>القيم إرشادية وقد تختلف حسب اللوائح المحلية والتحديثات الرسمية. تقدر تعدل الحدود في الكود لاحقاً إذا احتجت.</p>
+        </details>
+
+        <details>
+          <summary>شلون أستخدم حاسبة استبدال الأجهزة؟</summary>
+          <p>حط قدرة الجهاز القديم والجديد (بالواط)، وساعات وأيام التشغيل وسعر الكهرباء. الحاسبة بتطلع لك الاستهلاك السنوي لكل جهاز والتوفير السنوي والمتراكم (٥ و١٠ سنوات).</p>
+        </details>
+
+        <details>
+          <summary>شنو فوائد بطاقة كفاءة الطاقة لي كمستهلك؟</summary>
+          <p>تقلل فواتير الكهرباء، تساعدك تختار أجهزة ومبانٍ أكثر كفاءة، وترفع قيمة العقار عند البيع أو التأجير، وتقلل الانبعاثات لحماية البيئة.</p>
+        </details>
+
+        <details>
+          <summary>أقدر أستخدم النتائج كمرجع رسمي؟</summary>
+          <p>النتائج تقديرية للتوعية واتخاذ القرار. للإجراءات الرسمية، راجع الجهات المختصة واللوائح المعتمدة.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="yr"></span> بطاقة كفاءة الطاقة</div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
