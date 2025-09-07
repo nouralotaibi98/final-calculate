@@ -1,74 +1,66 @@
-/* ================== أدوات عامة ================== */
-const kwFmt = (n) =>
-  isFinite(n) ? n.toLocaleString("ar-KW", { maximumFractionDigits: 2 }) : "0";
+/* ===== أدوات عامة ===== */
+const kwFmt = (n) => (isFinite(n) ? n.toLocaleString("ar-KW", { maximumFractionDigits: 2 }) : "0");
 
-/* سنة الفوتر (لو موجود العنصر) */
-(() => {
-  const yr = document.getElementById("yr");
-  if (yr) yr.textContent = new Date().getFullYear();
-})();
-
-/* ================== حاسبة كفاءة المباني ==================
-   المدخلات من building.html:
-   - area               (مساحة المبنى بالمتر المربع)
-   - annualConsumption  (الاستهلاك السنوي kWh)
-
-   المطلوب:
-   - حساب كثافة الاستهلاك السنوي: density = consumption / area
-   - تصنيف عربي من أ → ج فقط:
-       أ : كثافة ≤ 50 kWh/m².year
-       ب : 50 < كثافة ≤ 100
-       ج : كثافة > 100
-   - عرض: التصنيف + الكثافة + المساحة
-=========================================================== */
+/* ===== حاسبة كفاءة المباني (تصنيف عربي + شريط ألوان) =====
+   التصنيف:
+     أ : كثافة ≤ 50 kWh/m².year
+     ب : 50 < كثافة ≤ 100
+     ج : كثافة > 100
+*/
 function calculateBuilding() {
-  const area = parseFloat(document.getElementById("area")?.value);
-  const consumption = parseFloat(
-    document.getElementById("annualConsumption")?.value
-  );
+  const areaEl = document.getElementById("area");
+  const consEl = document.getElementById("annualConsumption");
+  const resultBox = document.getElementById("result");
+
+  const area = parseFloat(areaEl?.value);
+  const consumption = parseFloat(consEl?.value);
 
   if (!isFinite(area) || area <= 0 || !isFinite(consumption) || consumption <= 0) {
     alert("الرجاء إدخال قيم صحيحة للمساحة والاستهلاك السنوي.");
     return;
   }
 
-  // كثافة الاستهلاك السنوي (kWh/m².year)
-  const density = consumption / area;
+  const density = consumption / area; // kWh/m².year
 
-  // التصنيف العربي (أ، ب، ج)
+  // التصنيف بالعربي
   let rating = "ج";
+  let idx = 2; // موضع المؤشر الافتراضي على (ج)
   if (density <= 50) {
     rating = "أ";
+    idx = 0;
   } else if (density <= 100) {
     rating = "ب";
+    idx = 1;
   } else {
     rating = "ج";
+    idx = 2;
   }
 
-  const resultEl = document.getElementById("result");
-  if (resultEl) {
-    resultEl.innerHTML = `
-      <p>تصنيف كفاءة الطاقة: <strong>${rating}</strong></p>
-      <p>كثافة الاستهلاك السنوي: <strong>${density.toFixed(2)} kWh/m²·year</strong></p>
-      <p>مساحة المبنى: <strong>${kwFmt(area)} م²</strong></p>
-    `;
+  // تعبئة الـ KPI
+  document.getElementById("kpi-area").textContent = `${kwFmt(area)} م²`;
+  document.getElementById("kpi-density").textContent = `${density.toFixed(2)} kWh/m²·year`;
+  document.getElementById("kpi-rating").textContent = rating;
+
+  // عرض البوكس
+  resultBox.style.display = "block";
+
+  // تحريك المؤشر على الشريط
+  const scale = document.querySelector(".label-scale-3");
+  const needle = document.getElementById("needle");
+  if (scale && needle) {
+    const colW = scale.clientWidth / 3;
+    // المنتصف لكل خانة
+    needle.style.left = `${colW * idx + colW / 2}px`;
   }
 }
 
-/* ================== حاسبة استبدال الأجهزة ==================
-   المدخلات من devices.html:
-   - oldW      : قدرة الجهاز القديم (واط)
-   - newW      : قدرة الجهاز الجديد (واط)
-   - hrsDay    : ساعات التشغيل يوميًا
-   - daysYear  : أيام التشغيل سنويًا
-   - priceKwh  : سعر الكهرباء (د.ك لكل kWh)
+/* خيار لمسح النتائج */
+function clearBuilding() {
+  const r = document.getElementById("result");
+  if (r) r.style.display = "none";
+}
 
-   المخرجات:
-   - oldKwh/newKwh kWh/سنة
-   - saveKwh  kWh سنوي
-   - saveKd   د.ك سنوي
-   - حفظ 5 و 10 سنوات
-============================================================== */
+/* ===== حاسبة استبدال الأجهزة (كما هي) ===== */
 function calcDevices() {
   const oldW = +document.getElementById("oldW").value || 0;
   const newW = +document.getElementById("newW").value || 0;
@@ -81,7 +73,6 @@ function calcDevices() {
     return;
   }
 
-  // kWh/سنة = (واط / 1000) × ساعات × أيام
   const oldK = (oldW / 1000) * hrs * days;
   const newK = (newW / 1000) * hrs * days;
 
@@ -102,3 +93,6 @@ function clearDevices() {
   const sum = document.getElementById("rep-summary");
   if (sum) sum.classList.add("hide");
 }
+
+/* تشيك سريع أن السكربت اشتغل */
+console.log("script.js loaded ✔");
