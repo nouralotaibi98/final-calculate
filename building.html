@@ -1,78 +1,75 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة كفاءة المباني</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>حاسبة كفاءة المباني</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>حاسبة كفاءة المباني</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="devices.html">حاسبة الأجهزة</a></li>
-                    <li><a href="info.html">المعلومات</a></li>
-                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
-                </ul>
-            </nav>
+  <header class="site-header">
+    <div class="container header-wrap">
+      <h1 class="brand">بطاقة كفاءة الطاقة</h1>
+      <nav>
+        <ul class="nav">
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a class="active" href="building.html">حاسبة المباني</a></li>
+          <li><a href="devices.html">حاسبة الأجهزة</a></li>
+          <li><a href="info.html">المعلومات</a></li>
+          <li><a href="faq.html">الأسئلة الشائعة</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>حاسبة كفاءة المباني</h2>
+      <p class="lead">أدخل مساحة المبنى والاستهلاك السنوي للحصول على الكثافة وتصنيف الكفاءة (أ / ب / ج) مع شريط ألوان.</p>
+
+      <form class="grid form-grid" onsubmit="event.preventDefault(); calculateBuilding();">
+        <div class="field">
+          <label for="area">مساحة المبنى (م²)</label>
+          <input id="area" type="number" min="1" placeholder="مثال: 180" required />
         </div>
-    </header>
 
-    <main>
-        <section class="calculator container">
-            <h2>أدخل بيانات المبنى لحساب الكفاءة</h2>
-            <form id="buildingForm">
-                <label for="area">مساحة المبنى (م²):</label>
-                <input type="number" id="area" required>
-
-                <label for="annualConsumption">الاستهلاك السنوي للطاقة (kWh):</label>
-                <input type="number" id="annualConsumption" required>
-
-                <button type="button" onclick="calculateBuilding()">احسب</button>
-            </form>
-
-            <div id="result" class="result"></div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>© 2025 بطاقة كفاءة الطاقة - جميع الحقوق محفوظة</p>
+        <div class="field">
+          <label for="annualConsumption">الاستهلاك السنوي (kWh)</label>
+          <input id="annualConsumption" type="number" min="1" placeholder="مثال: 9000" required />
         </div>
-    </footer>
 
-    <script>
-        function calculateBuilding() {
-            const area = parseFloat(document.getElementById('area').value);
-            const consumption = parseFloat(document.getElementById('annualConsumption').value);
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">احسب التصنيف</button>
+          <button type="reset" class="btn btn-ghost" onclick="clearBuilding()">مسح</button>
+        </div>
+      </form>
 
-            if(area <= 0 || consumption <= 0){
-                alert('الرجاء إدخال قيم صحيحة');
-                return;
-            }
+      <div id="result" class="result section" style="margin-top:16px; display:none;">
+        <div class="summary">
+          <div class="kpi"><div>مساحة المبنى</div><b id="kpi-area">—</b></div>
+          <div class="kpi"><div>كثافة الاستهلاك</div><b id="kpi-density">—</b></div>
+          <div class="kpi"><div>التصنيف</div><b id="kpi-rating">—</b></div>
+        </div>
 
-            // حساب كثافة الاستهلاك السنوي (kWh/m².year)
-            const density = consumption / area;
+        <!-- شريط التصنيف الملوّن -->
+        <div class="label-scale-3" aria-label="Energy label A-B-C">
+          <div class="grade-a">أ</div>
+          <div class="grade-b">ب</div>
+          <div class="grade-c">ج</div>
+          <div id="needle" class="needle"></div>
+        </div>
+        <div class="muted" id="label-help">* أ = أفضل كفاءة — ج = أقل كفاءة (حدود إرشادية قابلة للتعديل).</div>
+      </div>
+    </section>
+  </main>
 
-            // تصنيف الكفاءة بالعربي حسب كثافة الاستهلاك
-            let rating = '';
-            if(density <= 50){
-                rating = 'أ';
-            } else if(density <= 100){
-                rating = 'ب';
-            } else {
-                rating = 'ج';
-            }
+  <footer class="site-footer">
+    <div class="container">© <span id="yr"></span> بطاقة كفاءة الطاقة</div>
+  </footer>
 
-            document.getElementById('result').innerHTML = `
-                <p>كثافة الاستهلاك السنوي: <strong>${density.toFixed(2)} kWh/m²</strong></p>
-                <p>مساحة المبنى: <strong>${area} م²</strong></p>
-                <p>تصنيف كفاءة الطاقة: <strong>${rating}</strong></p>
-            `;
-        }
-    </script>
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
