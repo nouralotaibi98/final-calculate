@@ -23,6 +23,41 @@ header {
 }
 
 .header-wrap,
+
+/* ===== شريط تصنيف أ/ب/ج ===== */
+.label-scale-3 {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 54px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  color: #fff;
+  font-weight: 800;
+  text-align: center;
+}
+.label-scale-3 > div {
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+}
+.grade-a { background: #0b8a2a; }  /* أخضر */
+.grade-b { background: #f1b600; }  /* أصفر */
+.grade-c { background: #d84315; }  /* برتقالي/أحمر */
+
+.needle {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 66px;
+  background: #111;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.65);
+  left: 0; /* يُضبط من JS */
+  transform: translateX(-1px);
+}
+.result .summary { margin-bottom: 8px; }
 header .container {
   display: flex;
   justify-content: space-between;
